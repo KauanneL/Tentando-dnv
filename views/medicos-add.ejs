@@ -1,66 +1,120 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Gerenciamento de médicos da clínica</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-
+    <title>Gerenciamento de médicos da clínica</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-
 GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
-<script>
-$(document).ready(function () {
-function getEspecialidade() { /* Função para obter as especialidades da rota*/
-$.ajax({
-url: "/especialidades/listar", /* Chamada da rota*/
-type: "GET", /* Método usado pela rota*/
-dataType: "json", /* Tipo de dado retornado pela rota*/
-success: function (res) { /* Inclui os elementos do <select>*/
-$("#inputEspecialidade").html("<option selected>(Informe)</option>");
-$.each(res.resultado, function (key, value) {
-$("#inputEspecialidade").append( /* Inclui os elementos vindos da rota */
-"<option value=" + value.id_especialidade + ">" + value.nome + "</option>"
-);
-});
-},
-});
-}
-getEspecialidade();
-});
-</script>
+    <script>
+        $(document).ready(function () {
+            function getEspecialidade() { 
+                $.ajax({
+                    url: "/especialidades/listar", 
+                    type: "GET", 
+                    dataType: "json", 
+                    success: function (res) { 
+                        $("#inputEspecialidade").html("<option selected>(Informe)</option>");
+                        $.each(res.resultado, function (key, value) {
+                            $("#inputEspecialidade").append( 
+                                "<option value=" + value.id_especialidade + ">" + value.nome + "</option>"
+                            );
+                        });
+                    },
+                });
+            }
+            getEspecialidade();
+        });
+
+        function getSalas() {
+            $.ajax({
+                url: "/salas/listar",
+                type: "GET",
+                dataType: "json",
+                success: function (res) {
+                    $("#inputSala").html("<option selected>(Informe)</option>");
+                    $.each(res.resultado, function (key, value) {
+                        $("#inputSala").append(
+                            "<option value=" + value.id_sala + ">" +
+                            value.identificacao +
+                            "</option>"
+                        );
+                    });
+                }
+            });
+        }
+
+        getSalas();
+
+    </script>
 
 </head>
+
 <body>
-<h1>Cadastro de Médicos</h1>
-<form  method = "post" action = "/medicos/add"class="row g-3" >
-<div class="col-md-6">
-<label for="inputNome" class="form-label">Nome</label>
-<input type="text" class="form-control" id="inputNome" name="nome" placeholder="Médico">
-</div>
-<div class="col-md-6">
-<label for="inputCRM" class="form-label">CRM</label>
-<input type="text" class="form-control" id="inputCRM" name="crm" placeholder="000000">
-</div>
-<div class="col-md-6">
-<label for="inputTelefone" class="form-label">Telefone</label>
-<input type="text" class="form-control" id="inputTelefone" name="telefone" placeholder="(00) 0000-0000">
-</div>
-<div class="col-md-6">
-<label for="inputEmail" class="form-label">Email</label>
-<input type="email" class="form-control" id="inputEmail" name="email" placeholder="medico@clinica.com">
-</div>
-<div class="col-md-6">
-<label for="inputEspecialidade" class="form-label">Especialidade</label>
-<select id="inputEspecialidade" class="form-select" name="especialidade">
-<option selected>(Informe)</option>
-</select>
-</div>
-<div class="col-12">
-<button type="submit" class="btn btn-primary">Cadastrar</button>
-</div>
-</form>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-
+    <h1>Cadastro de Médicos</h1>
+    <form method="post" action="/medicos/add" class="row g-3">
+        <div class="col-md-6">
+            <label for="inputNome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Médico">
+        </div>
+        <div class="col-md-6">
+            <label for="inputCRM" class="form-label">CRM</label>
+            <input type="text" class="form-control" id="inputCRM" name="crm" placeholder="000000">
+        </div>
+        <div class="col-md-6">
+            <label for="inputTelefone" class="form-label">Telefone</label>
+            <input type="text" class="form-control" id="inputTelefone" name="telefone" placeholder="(00) 0000-0000">
+        </div>
+        <div class="col-md-6">
+            <label for="inputEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="inputEmail" name="email" placeholder="medico@clinica.com">
+        </div>
+        <div class="col-md-6">
+            <label for="inputEspecialidade" class="form-label">Especialidade</label>
+            <select id="inputEspecialidade" class="form-select" name="especialidade">
+                <option selected>(Informe)</option>
+            </select>
+
+            <div class="col-md-4">
+                <label class="form-label">Dia da semana</label>
+                <select name="diaSemana" class="form-select">
+                    <option value="Segunda-feira">Segunda-feira</option>
+                    <option value="Terça-feira">Terça-feira</option>
+                    <option value="Quarta-feira">Quarta-feira</option>
+                    <option value="Quinta-feira">Quinta-feira</option>
+                    <option value="Sexta-feira">Sexta-feira</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Hora de início</label>
+                <input type="time" name="horaInicio" class="form-control">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Hora de término</label>
+                <input type="time" name="horaFim" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Sala</label>
+                <select name="id_sala" id="inputSala" class="form-select">
+                    <option selected>(Informe)</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </div>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-
 w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
+
 </html>
