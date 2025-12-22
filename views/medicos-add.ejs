@@ -80,16 +80,20 @@ GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="a
                 <option selected>(Informe)</option>
             </select>
 
-            <div class="col-md-4">
-                <label class="form-label">Dia da semana</label>
-                <select name="diaSemana" class="form-select">
-                    <option value="Segunda-feira">Segunda-feira</option>
-                    <option value="Terça-feira">Terça-feira</option>
-                    <option value="Quarta-feira">Quarta-feira</option>
-                    <option value="Quinta-feira">Quinta-feira</option>
-                    <option value="Sexta-feira">Sexta-feira</option>
+            <div class="col">
+                <label for="diaSemana" class="fw-bold">Dia da semana</label>
+                <select name="diaSemana" id="diaSemana" class="form-select" required>
+                  <option value="">(Informe)</option>
+                  <option value="SEG">Segunda-feira</option>
+                  <option value="TER">Terça-feira</option>
+                  <option value="QUA">Quarta-feira</option>
+                  <option value="QUI">Quinta-feira</option>
+                  <option value="SEX">Sexta-feira</option>
+                  <option value="SAB">Sábado</option>
+                  <option value="DOM">Domingo</option>
                 </select>
             </div>
+              
 
             <div class="col-md-4">
                 <label class="form-label">Hora de início</label>
