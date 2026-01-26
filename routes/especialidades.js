@@ -14,7 +14,7 @@ db.query(cmd, [], function(erro, listagem){
 if (erro){
 res.send(erro);
 }
-res.json({resultado: listagem});
+res.render('especialidades-lista', { resultado: listagem });
 });
 });
 
