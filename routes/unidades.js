@@ -4,15 +4,15 @@ let router = express.Router();
 
 router.get('/listar', function(req, res) {
 let cmd =  `
-SELECT id_sala, identificacao
-FROM sala
-ORDER BY identificacao
+SELECT id_unidade, nome, endereco
+FROM unidade
+ORDER BY nome
     `;
 db.query(cmd, [], function(erro, listagem){
 if (erro){
 res.send(erro);
 }
-res.render('salas-lista', { resultado: listagem });
+res.render('unidades-lista', { resultado: listagem });
 });
 });
 
