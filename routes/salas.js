@@ -1,45 +1,54 @@
-let express = require('express');
-let db = require('../utils/db')
-let router = express.Router();
+const express = require('express');
+const db = require('../utils/db');
+const router = express.Router();
 
-router.get('/listar', function(req, res) {
-let cmd =  `
-SELECT id_sala, identificacao
-FROM sala
-ORDER BY identificacao
+
+// 🔹 LISTAR SALAS (RETORNA JSON PARA O AJAX)
+router.get('/listar', function (req, res) {
+
+    const cmd = `
+        SELECT id_sala, identificacao
+        FROM sala
+        ORDER BY identificacao
     `;
-db.query(cmd, [], function(erro, listagem){
-if (erro){
-res.send(erro);
-}
-res.render('salas-lista', { resultado: listagem });
+
+    db.query(cmd, [], function (erro, listagem) {
+        if (erro) {
+            console.log(erro);
+            return res.status(500).json(erro);
+        }
+
+        res.json({ resultado: listagem }); // 👈 O AJAX PRECISA DISSO
+    });
 
 });
-});
 
+
+// 🔹 TELA DE CADASTRO DE SALA
 router.get('/add', function (req, res) {
-    res.render('salas-add', { resultado: {} })
+    res.render('salas-add', { resultado: {} });
 });
 
 
+// 🔹 INSERIR SALA
 router.post('/add', function (req, res) {
 
-    let identificacao = req.body.identificacao;
-    let id_sala = req.body.id_sala;
+    const identificacao = req.body.identificacao;
 
-    let cmdSala = `
-    INSERT INTO sala (identificacao, id_sala)
-    VALUES (?, ?)
-  `;
+    const cmdSala = `
+        INSERT INTO sala (identificacao)
+        VALUES (?)
+    `;
 
-    db.query(cmdSala, [identificacao, id_sala], function (erro, result) {
+    db.query(cmdSala, [identificacao], function (erro, result) {
         if (erro) {
+            console.log(erro);
             return res.send(erro);
         }
-                    res.redirect('/salas/listar');
-                }
-            );
-        });
 
+        res.redirect('/salas/listar');
+    });
+
+});
 
 module.exports = router;

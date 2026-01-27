@@ -1,49 +1,66 @@
 let express = require('express');
-let db = require('../utils/db')
+let db = require('../utils/db');
 let router = express.Router();
 
-router.get('/listar', function(req, res) {
-let cmd =  `
-    SELECT 
-        id_especialidade,
-        nome
-    FROM especialidade
-    ORDER BY nome
+
+// 🔵 ROTA PARA PÁGINA DE LISTAGEM (EJS)
+router.get('/', function(req, res) {
+    let cmd = `
+        SELECT id_especialidade, nome
+        FROM especialidade
+        ORDER BY nome
     `;
-db.query(cmd, [], function(erro, listagem){
-if (erro){
-res.send(erro);
-}
-res.render('especialidades-lista', { resultado: listagem });
- 
-});
+
+    db.query(cmd, [], function(erro, listagem){
+        if (erro){
+            return res.send(erro);
+        }
+
+        res.render('especialidade-lista', { resultado: listagem });
+    });
 });
 
+
+// 🟢 ROTA PARA AJAX (SELECT DO FORMULÁRIO)
+router.get('/listar', function(req, res) {
+    let cmd = `
+        SELECT id_especialidade, nome
+        FROM especialidade
+        ORDER BY nome
+    `;
+
+    db.query(cmd, [], function(erro, listagem){
+        if (erro){
+            return res.status(500).json(erro);
+        }
+
+        // 👇 ESSA LINHA FAZ O SELECT FUNCIONAR
+        res.json({ resultado: listagem });
+    });
+});
 
 router.get('/add', function (req, res) {
-    res.render('especialidades-add', { resultado: {} })
+    res.render('especialidades-add', { resultado: {} });
 });
-
 
 router.post('/add', function (req, res) {
 
-    let nome = req.body.nome;
-    let id_especialidade = req.body.id_especialidade;
+    const nome = req.body.nome;
 
+    const cmdEspecialidade = `
+        INSERT INTO especialidad (nome)
+        VALUES (?)
+    `;
 
-
-    let cmdEspecialidade = `
-    INSERT INTO especialidade (nome, id_especialidade)
-    VALUES (?, ?)
-  `;
-
-    db.query(cmdEspecialidade, [nome, id_especialidade], function (erro, result) {
+    db.query(cmdEspecialidade, [nome], function (erro, result) {
         if (erro) {
+            console.log(erro);
             return res.send(erro);
         }
-                    res.redirect('/especialidades/listar');
-                }
-            );
-        });
+
+        res.redirect('/especialidades/listar');
+    });
+
+});
 
 module.exports = router;

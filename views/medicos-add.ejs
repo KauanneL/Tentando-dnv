@@ -13,46 +13,48 @@ GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="a
 
     <script>
         $(document).ready(function () {
-            function getEspecialidade() { 
+    
+            function getEspecialidade() {
                 $.ajax({
-                    url: "/especialidades/listar", 
-                    type: "GET", 
-                    dataType: "json", 
-                    success: function (res) { 
+                    url: "/especialidades/listar",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (res) {
                         $("#inputEspecialidade").html("<option selected>(Informe)</option>");
                         $.each(res.resultado, function (key, value) {
-                            $("#inputEspecialidade").append( 
-                                "<option value=" + value.id_especialidade + ">" + value.nome + "</option>"
+                            $("#inputEspecialidade").append(
+                                "<option value='" + value.id_especialidade + "'>" + value.nome + "</option>"
                             );
                         });
-                    },
+                    }
                 });
             }
+    
+            function getSalas() {
+                $.ajax({
+                    url: "/salas/listar",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (res) {
+                        $("#inputSala").html("<option selected>(Informe)</option>");
+                        $.each(res.resultado, function (key, value) {
+                            $("#inputSala").append(
+                                "<option value='" + value.id_sala + "'>" +
+                                value.identificacao +
+                                "</option>"
+                            );
+                        });
+                    }
+                });
+            }
+    
+            // 🔥 SÓ EXECUTA DEPOIS QUE A PÁGINA CARREGAR
             getEspecialidade();
+            getSalas();
+    
         });
-
-        function getSalas() {
-            $.ajax({
-                url: "/salas/listar",
-                type: "GET",
-                dataType: "json",
-                success: function (res) {
-                    $("#inputSala").html("<option selected>(Informe)</option>");
-                    $.each(res.resultado, function (key, value) {
-                        $("#inputSala").append(
-                            "<option value=" + value.id_sala + ">" +
-                            value.identificacao +
-                            "</option>"
-                        );
-                    });
-                }
-            });
-        }
-
-        getSalas();
-
     </script>
-
+    
 </head>
 
 <body>
