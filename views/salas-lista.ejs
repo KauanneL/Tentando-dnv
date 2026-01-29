@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Listagem de Salas</title>
@@ -22,18 +23,27 @@
             <tr>
                 <th>#</th>
                 <th>Nome da Sala</th>
+                <th>Unidade</th>
             </tr>
         </thead>
 
         <tbody>
             <% resultado.forEach(function(item) { %>
                 <tr>
-                    <td><%= item.id_sala %></td>
-                    <td><%= item.identificacao %></td>
+                    <td>
+                        <%= item.id_sala %>
+                    </td>
+                    <td>
+                        <%= item.identificacao %>
+                    </td>
+                    <td>
+                        <%= item.unidade %>
+                    </td>
                 </tr>
-            <% }) %>
+                <% }) %>
         </tbody>
     </table>
 
 </body>
+
 </html>

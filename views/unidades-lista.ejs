@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>Listagem de Unidades</title>
@@ -23,19 +24,44 @@
                 <th>#</th>
                 <th>Nome</th>
                 <th>Endereço</th>
+                <th>Salas</th>
             </tr>
+
         </thead>
 
         <tbody>
-            <% resultado.forEach(function(item) { %>
-                <tr>
-                    <td><%= item.id_unidade%></td>
-                    <td><%= item.nome %></td>
-                    <td><%= item.endereco %></td>
+            <% let unidadeAtual=null; resultado.forEach(function(item) { if (unidadeAtual !==item.id_unidade) { if
+                (unidadeAtual !==null) { %>
+                </td>
                 </tr>
-            <% }) %>
+                <% } unidadeAtual=item.id_unidade; %>
+                    <tr>
+                        <td>
+                            <%= item.id_unidade %>
+                        </td>
+                        <td>
+                            <%= item.nome %>
+                        </td>
+                        <td>
+                            <%= item.endereco %>
+                        </td>
+                        <td>
+                            <% } %>
+
+                                <%- item.sala ? item.sala + '<br>' : '' %>
+
+
+
+                                    <% }) %>
+
+                                        <% if (unidadeAtual !==null) { %>
+                        </td>
+                    </tr>
+                    <% } %>
         </tbody>
+
     </table>
 
 </body>
+
 </html>

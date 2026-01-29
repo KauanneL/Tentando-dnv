@@ -1,41 +1,36 @@
 let express = require('express');
-let db = require('../utils/db');
+let db = require('../utils/db')
 let router = express.Router();
 
-
-// 🔵 ROTA PARA PÁGINA DE LISTAGEM (EJS)
-router.get('/', function(req, res) {
+router.get('/preenche-select', function (req, res) {
     let cmd = `
-        SELECT id_especialidade, nome
-        FROM especialidade
-        ORDER BY nome
+    SELECT 
+        id_especialidade,
+        nome
+    FROM especialidade
+    ORDER BY nome
     `;
-
-    db.query(cmd, [], function(erro, listagem){
-        if (erro){
-            return res.send(erro);
+    db.query(cmd, [], function (erro, listagem) {
+        if (erro) {
+            res.send(erro);
         }
-
-        res.render('especialidade-lista', { resultado: listagem });
+        res.json({ resultado: listagem });
     });
 });
 
-
-// 🟢 ROTA PARA AJAX (SELECT DO FORMULÁRIO)
-router.get('/listar', function(req, res) {
+router.get('/listar', function (req, res) {
     let cmd = `
-        SELECT id_especialidade, nome
-        FROM especialidade
-        ORDER BY nome
+    SELECT 
+        id_especialidade,
+        nome
+    FROM especialidade
+    ORDER BY nome
     `;
-
-    db.query(cmd, [], function(erro, listagem){
-        if (erro){
-            return res.status(500).json(erro);
+    db.query(cmd, [], function (erro, listagem) {
+        if (erro) {
+            res.send(erro);
         }
-
-        // 👇 ESSA LINHA FAZ O SELECT FUNCIONAR
-        res.json({ resultado: listagem });
+        res.render('especialidades-lista', { resultado: listagem });
     });
 });
 
@@ -48,7 +43,7 @@ router.post('/add', function (req, res) {
     const nome = req.body.nome;
 
     const cmdEspecialidade = `
-        INSERT INTO especialidad (nome)
+        INSERT INTO especialidade (nome)
         VALUES (?)
     `;
 
@@ -62,5 +57,7 @@ router.post('/add', function (req, res) {
     });
 
 });
+
+
 
 module.exports = router;

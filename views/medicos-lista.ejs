@@ -24,12 +24,7 @@ GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="a
                 <th scope="col">Telefone</th>
                 <th scope="col">Email</th>
                 <th scope="col">Especialidade</th>
-                <th scope="col">Dia da semana</th>
-                <th scope="col">Hora de início</th>
-                <th scope="col">Hora de término</th>
-                <th scope="col">Sala</th>
-                <th scope="col">Unidade</th>
-            </tr>
+
         </thead>
         <tbody>
             <% for (let item of resultado) { %>
@@ -53,24 +48,7 @@ GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="a
                         <%= item.especialidade %>
                     </td>
 
-                    
-                    <td>
-                        <%= item.diaSemana ?? '-' %>
-                    </td>
-                    <td>
-                        <%= item.horaInicio ?? '-' %>
-                    </td>
-                    <td>
-                        <%= item.horaFim ?? '-' %>
-                    </td>
 
-                    
-                    <td>
-                        <%= item.sala ?? '-' %>
-                    </td>
-                    <td>
-                        <%= item.unidade ?? '-' %>
-                    </td>
                 </tr>
                 <% } %>
         </tbody>

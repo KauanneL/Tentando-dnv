@@ -4,7 +4,7 @@ host: 'localhost',
 user: 'root',
 password: '',
 port: 3306,
-database: 'clinica',
+database: 'clinica7',
 multipleStatements: true
 });
 db.connect(function(erro) {

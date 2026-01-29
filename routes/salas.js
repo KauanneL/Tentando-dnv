@@ -1,54 +1,69 @@
-const express = require('express');
-const db = require('../utils/db');
-const router = express.Router();
+let express = require('express');
+let db = require('../utils/db');
+let router = express.Router();
+
+router.get('/preenche-select', function (req, res) {
+  let cmd = `
+    SELECT 
+        s.id_sala,
+        CONCAT(s.identificacao, ' - ', u.nome) AS sala_unidade
+    FROM sala s
+    INNER JOIN unidade u 
+        ON s.id_unidade = u.id_unidade
+    ORDER BY u.nome, s.identificacao
+  `;
+
+  db.query(cmd, [], function (erro, listagem) {
+    if (erro) return res.send(erro);
+    res.json({ resultado: listagem });
+  });
+});
 
 
-// 🔹 LISTAR SALAS (RETORNA JSON PARA O AJAX)
 router.get('/listar', function (req, res) {
+  let cmd = `
+    SELECT 
+        s.id_sala,
+        s.identificacao,
+        u.nome AS unidade
+    FROM sala s
+    INNER JOIN unidade u 
+        ON s.id_unidade = u.id_unidade
+    ORDER BY s.identificacao
+  `;
 
-    const cmd = `
-        SELECT id_sala, identificacao
-        FROM sala
-        ORDER BY identificacao
-    `;
-
-    db.query(cmd, [], function (erro, listagem) {
-        if (erro) {
-            console.log(erro);
-            return res.status(500).json(erro);
-        }
-
-        res.json({ resultado: listagem }); // 👈 O AJAX PRECISA DISSO
-    });
-
+  db.query(cmd, [], function (erro, listagem) {
+    if (erro) return res.send(erro);
+    res.render('salas-lista', { resultado: listagem });
+  });
 });
 
 
-// 🔹 TELA DE CADASTRO DE SALA
 router.get('/add', function (req, res) {
-    res.render('salas-add', { resultado: {} });
+  res.render('salas-add', { resultado: {} });
 });
 
 
-// 🔹 INSERIR SALA
+
 router.post('/add', function (req, res) {
 
-    const identificacao = req.body.identificacao;
+  const identificacao = req.body.identificacao;
+  const id_unidade = req.body.unidade;
 
-    const cmdSala = `
-        INSERT INTO sala (identificacao)
-        VALUES (?)
+  const cmdSala = `
+        INSERT INTO sala (identificacao, id_unidade)
+        VALUES (?, ?)
     `;
 
-    db.query(cmdSala, [identificacao], function (erro, result) {
-        if (erro) {
-            console.log(erro);
-            return res.send(erro);
-        }
+  db.query(cmdSala, [identificacao, id_unidade], function (erro) {
+    if (erro) {
+      console.log(erro);
+      return res.send(erro);
+    }
 
-        res.redirect('/salas/listar');
-    });
-
+    res.redirect('/salas/listar');
+  });
 });
+
 
 module.exports = router;
